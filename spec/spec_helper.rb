@@ -1,4 +1,7 @@
 require "bundler/setup"
+require "faker"
+require "pry"
+require "stringio"
 require "sawmill"
 
 RSpec.configure do |config|
