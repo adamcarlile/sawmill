@@ -1,5 +1,9 @@
 module Sawmill
   class CLI < Thor
+    def self.exit_on_failure?
+      true
+    end
+
     desc "read FILE", "Read a log file and display the results"
     option :renderer, aliases: :r, 
       enum: Sawmill::Renderer::RENDERERS.keys.map(&:to_s), 
