@@ -1,3 +1,4 @@
+require "ostruct"
 require "logger"
 require "forwardable"
 require "delegate"
@@ -20,6 +21,7 @@ require "sawmill/parser"
 
 require "sawmill/renderers/text/line"
 require "sawmill/renderers/text"
+require "sawmill/renderer"
 
 module Sawmill
   module_function
@@ -30,8 +32,7 @@ module Sawmill
 
   def config
     @config ||= OpenStruct.new.tap do |c|
-      c.default_parser = Sawmill::Parser.default
-      c.logger         = Logger.new(STDOUT)   
+      c.logger = Logger.new(STDOUT)   
     end
   end
 

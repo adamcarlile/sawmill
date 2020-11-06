@@ -1,4 +1,8 @@
 #!/usr/bin/env ruby
 
 require "bundler/setup"
+require "thor"
 require "sawmill"
+require "sawmill/cli"
+
+Sawmill::CLI.start(ARGV)

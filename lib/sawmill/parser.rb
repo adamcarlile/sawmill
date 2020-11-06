@@ -6,7 +6,7 @@ module Sawmill
     }.freeze
 
     def self.default
-      PARSERS[:tuple]
+      PARSERS[DEFAULT_PARSER]
     end
   end
 end
