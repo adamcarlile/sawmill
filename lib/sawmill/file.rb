@@ -1,7 +1,7 @@
 module Sawmill
   class File
   
-    def initialize(file, parser: Sawmill.config.default_parser)
+    def initialize(file, parser: Sawmill::Parser.default)
       @file   = file.respond_to?(:each_entry) ? file : ::File.open(file)
       @parser = parser
       @store  = Hash.new {|h, k| h[k] = Sawmill::Page.new(path: k) }
