@@ -7,6 +7,10 @@ module Sawmill
     attribute :path, Types::Path
     attribute :visits, Types::Array.default { [] }
 
+    def views
+      count
+    end
+
     def <=>(other)
       views <=> other.views
     end

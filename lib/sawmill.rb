@@ -5,6 +5,7 @@ require "dry-types"
 require "dry-struct"
 
 require "sawmill/version"
+require "sawmill/refinements/pluralizer"
 
 require "sawmill/attributes/path"
 require "sawmill/attributes/ip"
@@ -16,6 +17,9 @@ require "sawmill/file"
 
 require "sawmill/parsers/tuple"
 require "sawmill/parser"
+
+require "sawmill/renderers/text/line"
+require "sawmill/renderers/text"
 
 module Sawmill
   module_function
