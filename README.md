@@ -1,44 +1,59 @@
 # Sawmill
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/sawmill`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This gem is designed to parse log files
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'sawmill'
+Clone this repo, and run the following command:
+```
+rake install
 ```
 
-And then execute:
-
-    $ bundle install
-
-Or install it yourself as:
-
-    $ gem install sawmill
+The sawmill binfile should now be in your path.
 
 ## Usage
 
-TODO: Write usage instructions here
+Invocation is via `sawmill`, help is provided by `sawmill help` or `sawmill help [COMMAND]` for detailed command help.
 
-## Development
+```
+sawmill help read
+Usage:
+  sawmill read FILE
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+Options:
+  r, [--renderer=RENDERER]      # Specify a renderer to display the results
+                                # Default: text
+                                # Possible values: text
+  p, [--parser=PARSER]          # Specify a parser to read the log file
+                                # Default: tuple
+                                # Possible values: tuple
+  u, [--unique], [--no-unique]  # Reduce by unique views
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+Read a log file and display the results
+```
 
-## Contributing
+It is shipped with an example file in the `rspec/fixtures/webserver.log`
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/sawmill. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/sawmill/blob/master/CODE_OF_CONDUCT.md).
+## Testing
 
+The application has a spec suite, and can be invoked through: `bundle install && bundle exec rspec`
 
-## License
+## Design
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+The basic structure of this gem is as follows. We ingest the file with the file class, that class is responsible for yielding each line to a parser. That parser can be specified at run time, however in this implementation there is only one. Each line is then transformed into a ruby object that represents a page, and a collection of vists to that page.
 
-## Code of Conduct
+By default we count all visits in the total, regardless of their uniqueness, however in order to keep the API simple and no in-line switching based on some control flow, we apply a different presenter to the page, which redefines how the count is tallied. In this case injecting a uniq call into the stack.
 
-Everyone interacting in the Sawmill project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/sawmill/blob/master/CODE_OF_CONDUCT.md).
+Finally after we've applied those calls, we shovel the sorted array of pages, with their views, back into a render, who's responsibility it is to actually output the objects in a meaningful way. Again, this was designed to allow for extension, potentially to output a table, or some other great ASCII concotion, or even potentially render a PDF if that's your bag!
+
+## TODO
+
+* Error control and handling, for blank file handlers, or files with malformed contents
+* Potentially colourising the output, or transforming it into a table
+* A few more tests around the CLI, perhaps a high level integration spec, that actually excercises the CLI in a shell
+
+(However I ran out of time)
+
+## Problems
+
+* The dataset as supplied contains malformed IP address, therefor we cannot use the built in ruby library for handling IP addresses, as they raise validation exceptions. But provided with a real dataset, we could reinstate that line in the `sawmill/attributes/ip` object.
