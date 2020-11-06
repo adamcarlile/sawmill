@@ -4,12 +4,13 @@ module Sawmill
       class Line
         using Sawmill::Refinements::Pluralizer
 
-        def initialize(page)
+        def initialize(page, text: "visit")
           @page = page
+          @text = text
         end
 
         def to_s
-          [@page.path, @page.views, "visit".pluralize(@page.views)].join(' ')
+          [@page.path, @page.views, @text.pluralize(@page.views)].join(' ')
         end
 
       end

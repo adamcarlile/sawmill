@@ -4,12 +4,14 @@ require "forwardable"
 require "delegate"
 require "dry-types"
 require "dry-struct"
-
+require "pry"
 require "sawmill/version"
 require "sawmill/refinements/pluralizer"
 
 require "sawmill/attributes/path"
 require "sawmill/attributes/ip"
+
+require "sawmill/presenters/page/unique_visits"
 
 require "sawmill/types"
 require "sawmill/visit"

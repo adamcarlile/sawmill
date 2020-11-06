@@ -1,7 +1,10 @@
 module Sawmill
   module Presenters
     module Page
-      class UniqueVists < SimpleDelegator
+      class UniqueVisits < SimpleDelegator
+        def self.wrap(objects)
+          objects.map {|x| new(x) }
+        end
 
         def views
           visits.uniq.count

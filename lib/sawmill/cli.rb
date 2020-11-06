@@ -9,12 +9,21 @@ module Sawmill
       enum: Sawmill::Parser::PARSERS.keys.map(&:to_s),   
       default: Sawmill::Parser::DEFAULT_PARSER,
       desc: "Specify a parser to read the log file"
+    option :unique, aliases: :u,
+      type: :boolean,
+      default: false,
+      desc: "Reduce by unique views"
+      
     def read(file_path)
       parser   = Sawmill::Parser::PARSERS[options[:parser].to_sym]
       file     = Sawmill::File.new(file_path, parser: parser)
       renderer = Sawmill::Renderer::RENDERERS[options[:renderer].to_sym]
 
-      puts renderer.new(file.lines.sort.reverse).to_s
+      lines = options[:unique] ? Sawmill::Presenters::Page::UniqueVisits.wrap(file.lines) : file.lines
+
+      text = options[:unique] ? "unique view" : "view"
+
+      puts renderer.new(lines.sort.reverse, text: text).to_s
     end
   end
 end

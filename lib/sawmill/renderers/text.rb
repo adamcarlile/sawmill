@@ -2,8 +2,9 @@ module Sawmill
   module Renderers
     class Text
 
-      def initialize(pages)
+      def initialize(pages, text: 'visit')
         @pages = pages
+        @text = text
       end
 
       def to_s
@@ -13,7 +14,7 @@ module Sawmill
       private
 
       def lines
-        @lines ||= @pages.map {|x| Sawmill::Renderers::Text::Line.new(x) }
+        @lines ||= @pages.map {|x| Sawmill::Renderers::Text::Line.new(x, text: @text) }
       end
 
     end
